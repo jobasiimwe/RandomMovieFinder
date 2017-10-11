@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import movieImage from './resources/movieBoardImg.png';
 import Header from './components/Header';
+import MovieList from './components/MovieList';
 
 const App = () => (
     <View style={styles.home}>
@@ -23,6 +24,9 @@ const App = () => (
              style={ styles.movieImage }
              source={movieImage}
             />
+        </View>
+        <View style={ styles.movieListContainer }>
+          <MovieList/>
         </View>
     </View>
 );
@@ -40,6 +44,10 @@ const styles = ({
     width: '30%',
     height: '30%',
     resizeMode: 'contain'
+  },
+  movieListContainer: {
+    flex: 1
   }
 });
+
 export default App;
