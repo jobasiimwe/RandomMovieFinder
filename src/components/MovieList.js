@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
     FlatList,
     Text,
@@ -7,18 +8,33 @@ import {
 import MovieListItem from './MovieListItem';
 import movieData from '../resources/movies.json';
 
-const MovieList = () => (
+const searchMovies = (movies, searchTerm) => {
+  return movies.filter((movie)=>{
+    return movie.title.toLowerCase()
+      .contains(searchTerm.toLowerCase());
+  });
+};
+
+const MovieList = (props) => (
   <View>
+    <Text>{props.searchKeyWord}</Text>
     <FlatList
-      data={movieData.results}
+      data={searchMovies(movieData.results, props.searchKeyWord)}
       keyExtractor={(item, index) => item.id}
       renderItem={({item}) =>
         <MovieListItem
-         name={item.title}
+          title={item.title}
+          posterPath={item.poster_path}
+          voteAverage={item.vote_average}
         />
       }
     />
   </View>
 );
+
+
+MovieList.propTypes = {
+  searchKeyWord: PropTypes.string.isRequired,
+};
 
 export default MovieList;

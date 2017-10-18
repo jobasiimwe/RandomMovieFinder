@@ -1,4 +1,4 @@
 import { AppRegistry } from 'react-native';
-import App from './src/app';
+import Home from './src/Home';
 
-AppRegistry.registerComponent('RandomMovieFinder', () => App);
+AppRegistry.registerComponent('RandomMovieFinder', () => Home);

@@ -9,9 +9,26 @@ import {
 import movieImage from './resources/movieBoardImg.png';
 import Header from './components/Header';
 import MovieList from './components/MovieList';
+import SearchBox from './components/SearchBox';
 
-const App = () => (
-    <View style={styles.home}>
+class Home extends React.Component{
+  
+  constructor(props) {
+    super(props);
+    this.onSearchPressed = this.onSearchPressed.bind(this);
+  }
+
+  state = {
+    searchKeyWord: '',
+  };
+
+  onSearchPressed (searchKeyWord) {
+    this.setState({searchKeyWord});
+  } 
+  
+  render() {
+    return (
+      <View style={styles.home}>
         <Header>
             <Text>some text</Text>
             <Image style={styles.movieImage} source={movieImage} />
@@ -21,15 +38,25 @@ const App = () => (
                 What movie should we watch tonight?
             </Text>
             <Image
-             style={ styles.movieImage }
-             source={movieImage}
+            style={ styles.movieImage }
+            source={movieImage}
             />
         </View>
-        <View style={ styles.movieListContainer }>
-          <MovieList/>
+
+        <View  style={ styles.content }>
+          <SearchBox 
+            title='Search Movie' 
+            onSearchPressed={this.onSearchPressed}
+          />
         </View>
-    </View>
-);
+
+        <View style={ styles.movieListContainer }>
+          <MovieList searchKeyWord={this.state.searchKeyWord}/>
+        </View>
+      </View>
+    );
+  }
+};
 
 const styles = ({
   home: {
@@ -50,4 +77,4 @@ const styles = ({
   }
 });
 
-export default App;
+export default Home;
