@@ -6,33 +6,33 @@ import {
   Text,
   View
 } from 'react-native';
-import movieImage from './resources/movieBoardImg.png';
-import Header from './components/Header';
-import MovieList from './components/MovieList';
-import SearchBox from './components/SearchBox';
+import movieImage from '../resources/movieBoardImg.png';
+import Header from './Header';
+import SearchBox from './SearchBox';
+import { search } from '../fakeMoviesApi';
+
 
 class Home extends React.Component{
   
+  static navigationOptions = {
+    title: 'Random Movie Finder'
+  };
+
   constructor(props) {
     super(props);
     this.onSearchPressed = this.onSearchPressed.bind(this);
   }
 
-  state = {
-    searchKeyWord: '',
-  };
-
-  onSearchPressed (searchKeyWord) {
-    this.setState({searchKeyWord});
+  onSearchPressed (searchKeyword) {
+    const movies = search(searchKeyword);
+    this.props.navigation.navigate('MovieList', {
+      searchKeyword, movies
+    });
   } 
   
   render() {
     return (
       <View style={styles.home}>
-        <Header>
-            <Text>some text</Text>
-            <Image style={styles.movieImage} source={movieImage} />
-        </Header>
         <View style={ styles.content }>
             <Text>
                 What movie should we watch tonight?
@@ -48,10 +48,6 @@ class Home extends React.Component{
             title='Search Movie' 
             onSearchPressed={this.onSearchPressed}
           />
-        </View>
-
-        <View style={ styles.movieListContainer }>
-          <MovieList searchKeyWord={this.state.searchKeyWord}/>
         </View>
       </View>
     );
