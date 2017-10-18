@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, Text, View } from 'react-native';
+import { Text, FlatList, View } from 'react-native';
 import MovieListItem from './MovieListItem';
 import moviesData from '../resources/movies.json';
 
@@ -12,35 +12,11 @@ const renderSearchWord = (searchKeyword) => {
   )}
 }
 
-const searchMovies = (movies, searchTerm) => {
-  return movies.filter((movie)=>{
-    return movie.title.toLowerCase()
-      .contains(searchTerm.toLowerCase());
-  });
-};
-
 class MovieList extends React.Component {
-  state = {
-    moviesToDisplay: moviesData.results,
-  };
 
-  // itemContainsKeyword(item, searchKeyword) {
-  //   const itemTitle = item.title.toLowerCase();
-  //   const keyword = searchKeyword.toLowerCase();
-  //   return itemTitle.indexOf(keyword) >= 0;
-  // }
-
-  // componentWillReceiveProps(nextProps) {
-  //   console.log('lol');
-  //   if(nextProps.searchKeyword !== '') {
-  //     const newMoviesToDisplay = moviesData.results.filter((item) => 
-  //       this.itemContainsKeyword(item, nextProps.searchKeyword)
-  //     );
-  //     this.setState({moviesToDisplay: newMoviesToDisplay})
-  //   } else {
-  //     this.setState({moviesToDisplay: moviesData.results})
-  //   }
-  // }
+  movieSelected = (movie) => {
+    this.props.navigation.navigate('MovieDetail', { movie });
+  }
 
   render () {
     const { searchKeyword, movies } = this.props.navigation.state.params;
@@ -52,12 +28,11 @@ class MovieList extends React.Component {
         </Text>
         <FlatList
           style={{flex:1}}
-          data={this.state.moviesToDisplay}
+          data={movies}
           keyExtractor={(item, index) => item.id }
           renderItem={({item}) => <MovieListItem
-            title={item.title}
-            posterPath={item.poster_path}
-            voteAverage={item.vote_average}
+            movie={item}
+            callback={this.movieSelected}
           />}
         />
       </View>
